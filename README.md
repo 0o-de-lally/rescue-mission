@@ -5,11 +5,15 @@ Something happend and we can't yet explain it. Restoring from the last epoch cha
 
 But the spice must flow. So we will take a snapshot of a known-good block-height from one node, and share here.
 
+![spice](the-spice-must-flow.png)
+
 ## Using a rescue snapshot
-Rescue snapshots have `archive` names. Restore an archive with:
+Rescue snapshots are saved by their block height e.g. `12212197` (upgrade rescue for epoch 51).
+
+Restore an archive with:
 
 ```
-ARCHIVE=area-51 make the-spice-must-flow
+HEIGHT=12212197 make the-spice-must-flow
 ```
 
 ## The actual restore commands
