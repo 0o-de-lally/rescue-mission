@@ -28,12 +28,12 @@ save: save-epoch save-tx save-state
 
 save-epoch:
 	@echo EPOCH
-	db-backup one-shot backup --backup-service-address http://localhost:6186 epoch-ending --start-epoch ${PREV_EPOCH} --end-epoch ${EPOCH} local-fs --dir ${HEIGHT}
+	db-backup one-shot backup --backup-service-address http://localhost:6186 epoch-ending --start-epoch ${PREV_EPOCH} --end-epoch ${EPOCH} local-fs --dir ~/rescue-mission/${HEIGHT}
 
 save-tx:
 	@echo TRANSACTION
-	db-backup one-shot backup --backup-service-address http://localhost:6186 transaction --num_transactions 1 --start-version ${HEIGHT} local-fs --dir ${HEIGHT}
+	db-backup one-shot backup --backup-service-address http://localhost:6186 transaction --num_transactions 1 --start-version ${HEIGHT} local-fs --dir ~/rescue-mission/${HEIGHT}
 
 save-state:
 	@echo STATE
-	db-backup one-shot backup --backup-service-address http://localhost:6186 state-snapshot --state-version ${HEIGHT}  local-fs --dir ${HEIGHT}
+	db-backup one-shot backup --backup-service-address http://localhost:6186 state-snapshot --state-version ${HEIGHT}  local-fs --dir ~/rescue-mission/${HEIGHT}
