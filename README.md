@@ -18,28 +18,35 @@ HEIGHT=12212197 make the-spice-must-flow
 
 ## The actual restore commands
 
+These example commands assume that the state was stored to a path ./$HEIGHT/ which uses the same height as the snapshot.
+
 #### epoch
-	db-restore --target-db-dir ~/.0L/db epoch-ending --epoch-ending-manifest ./area-51/epoch_ending*/epoch_ending.manifest local-fs --dir ${ARCHIVE_PATH}/${EPOCH}
+	db-restore --target-db-dir ~/.0L/db epoch-ending --epoch-ending-manifest ./$HEIGHT/epoch_ending*/epoch_ending.manifest local-fs --dir ./$HEIGHT/
 
 #### transaction
-  db-restore --target-db-dir ~/.0L/db transaction --transaction-manifest ./area-51/transaction_*/transaction.manifest local-fs --dir .
+  db-restore --target-db-dir ~/.0L/db transaction --transaction-manifest ./$HEIGHT/transaction_*/transaction.manifest local-fs --dir ./$HEIGHT/
 #### state
 
-  db-restore --target-db-dir ~/.0L/db state-snapshot --state-manifest ./area-51/state_ver_*/state.manifest --state-into-version 12212197 local-fs --dir .
+  db-restore --target-db-dir ~/.0L/db state-snapshot --state-manifest ./$HEIGHT/state_ver_*/state.manifest --state-into-version $HEIGHT local-fs --dir ./$HEIGHT/
 
 
 ## Making a rescue snapshot
 
+You can save a snapshot point with:
+```
+HEIGHT=<the current height> EPOCH=<the current epoch> make save
+```
+
 You'll need to create a restore point of
 - The epoch boundary (as the epoch-archive already does)
 - One transaction (block) at a good blockheight
-- A State snapshot
+- A atate snapshot
 
 ####  epoch
-	db-backup one-shot backup --backup-service-address ${URL}:6186 epoch-ending --start-epoch 51--end-epoch 51 local-fs --dir .
+	db-backup one-shot backup --backup-service-address ${URL}:6186 epoch-ending --start-epoch $EPOCH --end-epoch 51 local-fs --dir ./$HEIGHT/
 
 #### transaction
-  db-backup one-shot backup --backup-service-address http://localhost:6186 transaction --num_transactions 1 --start-version 12212197 local-fs --dir .
+  db-backup one-shot backup --backup-service-address http://localhost:6186 transaction --num_transactions 1 --start-version $HEIGHT local-fs --dir ./$HEIGHT/
 
 #### state
-  db-backup one-shot backup --backup-service-address http://localhost:6186 state-snapshot --state-version 12212197 local-fs --dir ~/test_backup
+  db-backup one-shot backup --backup-service-address http://localhost:6186 state-snapshot --state-version $HEIGHT local-fs --dir ./$HEIGHT/
