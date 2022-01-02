@@ -15,14 +15,13 @@ echo:
 
 the-spice-must-flow:
 	@echo RESTORING EPOCH
-	db-restore --target-db-dir ${DB_PATH} epoch-ending --epoch-ending-manifest ./${HEIGHT}/epoch_ending*/epoch_ending.manifest local-fs --dir ./${HEIGHT}
-  
-	@echo RESTORING TRANSACTION
+	cd ${HEIGHT} && db-restore --target-db-dir ${DB_PATH} epoch-ending --epoch-ending-manifest ./epoch_ending*/epoch_ending.manifest local-fs --dir .
 
-	db-restore --target-db-dir ${DB_PATH} transaction --transaction-manifest ./${HEIGHT}/transaction_*/transaction.manifest local-fs --dir ./${HEIGHT}
+	@echo RESTORING TRANSACTION
+	cd ${HEIGHT} && db-restore --target-db-dir ${DB_PATH} transaction --transaction-manifest ./transaction_*/transaction.manifest local-fs --dir .
 
 	@echo RESTORING STATE
-	db-restore --target-db-dir ${DB_PATH} state-snapshot --state-manifest ./${HEIGHT}/state_ver_*/state.manifest --state-into-version ${HEIGHT} local-fs --dir ./${HEIGHT}
+	cd ${HEIGHT} && db-restore --target-db-dir ${DB_PATH} state-snapshot --state-manifest ./state_ver_*/state.manifest --state-into-version ${HEIGHT} local-fs --dir .
 
 save: save-epoch save-tx save-state
 
